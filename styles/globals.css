@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 /* //THEME 1 */
-/* :root{
+:root {
   --icons-color: #4c5773;
   --icons-light-color: #4c577341;
   --icons-bg-color: #e2e6e9;
@@ -13,11 +13,9 @@
   --box-shadow: 1rem 1rem 1rem var(--shadow-dark-color),
   -1rem -1rem 1rem var(--shadow-light-color);
 
-
   --box-shadow-2: 0rem 0rem 0rem var(--shadow-dark-color),
   -.3rem -.3rem 1rem var(--shadow-dark-color)
-
-} */
+}
 
 
 /* //THEME 11 */
@@ -39,23 +37,22 @@
 
 
 /* //THEME 2 */
-:root {
-  --icons-color: #FFDF2B;
-  --icons-light-color: #ffdf2b57;
-  --icons-bg-color: #FFDF2B;
-  --shadow-dark-color: #555557;
-  --bg-shadow-dark-color: #555557;
-  --shadow-light-color: #232325;
-  --main-bg-color: #232325;
-  --overlay: #2323255e;
+/*:root {*/
+/*  --icons-color: #FFDF2B;*/
+/*  --icons-light-color: #ffdf2b57;*/
+/*  --icons-bg-color: #FFDF2B;*/
+/*  --shadow-dark-color: #555557;*/
+/*  --bg-shadow-dark-color: #555557;*/
+/*  --shadow-light-color: #232325;*/
+/*  --main-bg-color: #232325;*/
+/*  --overlay: #2323255e;*/
 
-  --box-shadow: 1px 1px 2px #FFDF2B,
-  -1px -1px 2px #FFDF2B;
+/*  --box-shadow: 1px 1px 2px #FFDF2B,*/
+/*  -1px -1px 2px #FFDF2B;*/
 
-  --box-shadow-2: 1px 1px 2px #FFDF2B,
-  -1px -1px 2px #FFDF2B;
-
-}
+/*  --box-shadow-2: 1px 1px 2px #FFDF2B,*/
+/*  -1px -1px 2px #FFDF2B;*/
+/*}*/
 
 /* //THEME 3 */
 /* :root{
@@ -72,7 +69,6 @@
 
   --box-shadow-2:1px 1px 2px #9001F5,
   -1px -1px 2px #9001F5;
-
 } */
 
 /* //THEME 4 */
@@ -90,7 +86,6 @@
 
   --box-shadow-2:1px 1px 2px #EE0823,
   -1px -1px 2px #EE0823;
-
 } */
 
 /* //THEME 5 */
@@ -108,7 +103,6 @@
 
   --box-shadow-2:1px 1px 2px #B901AF,
   -1px -1px 2px #B901AF;
-
 } */
 
 
@@ -127,7 +121,6 @@
 
   --box-shadow-2:1px 1px 2px #945361,
   -1px -1px 2px #945361;
-
 } */
 
 /* //THEME 7 */
@@ -145,7 +138,6 @@
 
   --box-shadow-2:1px 1px 2px #BB22C3,
   -1px -1px 2px #BB22C3;
-
 } */
 
 
@@ -164,7 +156,6 @@
 
   --box-shadow-2:1px 1px 2px #FF5B3E,
   -1px -1px 2px #FF5B3E;
-
 } */
 
 
@@ -183,7 +174,6 @@
 
   --box-shadow-2:1px 1px 2px #5DDEE2,
   -1px -1px 2px #5DDEE2;
-
 } */
 
 /* //THEME 10 */
@@ -201,7 +191,6 @@
 
   --box-shadow-2:1px 1px 2px #F83166,
   -1px -1px 2px #F83166;
-
 } */
 
 

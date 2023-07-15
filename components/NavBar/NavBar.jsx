@@ -114,7 +114,7 @@ const NavBar = () => {
           </div>
 
           <div className={Style.navbar_container_right_button}>
-            <Button btnName="Create" />
+            <Button btnName="Create" handleClick={() => {}} />
           </div>
 
           <div className={Style.navbar_container_right_profile_box}>
@@ -127,7 +127,7 @@ const NavBar = () => {
                 onClick={() => openProfile()}
                 className={Style.navbar_container_right_profile}
               />
-              {profile && <Profile currentAccount={currentAccount} />}
+              {profile && <Profile />}
             </div>
           </div>
 
@@ -144,8 +144,6 @@ const NavBar = () => {
         <div className={Style.sideBar}>
           <SideBar
             setOpenSideMenu={setOpenSideMenu}
-            currentAccount={currentAccount}
-            connectWallet={connectWallet}
           />
         </div>
       )}
