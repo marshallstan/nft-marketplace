@@ -8,7 +8,8 @@ import {
   Category,
   Filter,
   NFTCard,
-  Collection
+  Collection,
+  FollowerTab
 } from '../components/componentsindex'
 
 const Home = () => {
@@ -22,6 +23,8 @@ const Home = () => {
         heading="New Collection"
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
+
+      <FollowerTab />
       <Collection />
 
       <Title
