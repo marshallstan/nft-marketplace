@@ -10,7 +10,8 @@ import {
   NFTCard,
   Collection,
   FollowerTab,
-  AudioLive
+  AudioLive,
+  Slider
 } from '../components/componentsindex'
 
 const Home = () => {
@@ -27,6 +28,7 @@ const Home = () => {
       <AudioLive />
 
       <FollowerTab />
+      <Slider />
       <Collection />
 
       <Title
