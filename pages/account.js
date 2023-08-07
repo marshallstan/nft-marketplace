@@ -15,7 +15,9 @@ const account = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/*',
+    accept: {
+      'image/*': []
+    },
     maxSize: 5000000
   })
 
@@ -38,6 +40,7 @@ const account = () => {
             width={150}
             height={150}
             className={Style.account_box_img_img}
+            priority={true}
           />
           <p className={Style.account_box_img_para}>Change Image</p>
         </div>
