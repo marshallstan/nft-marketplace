@@ -1,3 +1,4 @@
+import { useContext, useEffect } from 'react'
 import Style from '../styles/index.module.css'
 import {
   HeroSection,
@@ -15,8 +16,11 @@ import {
   Brand,
   Video
 } from '../components/componentsindex'
+import { NFTMarketplaceContext } from '../Context/NFTMarketplaceContext'
 
 const Home = () => {
+  const { currentAccount } = useContext(NFTMarketplaceContext)
+
   return (
     <div className={Style.homePage}>
       <HeroSection />
