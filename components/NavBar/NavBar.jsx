@@ -78,14 +78,8 @@ const NavBar = () => {
     <div className={Style.navbar}>
       <div className={Style.navbar_container}>
         <div className={Style.navbar_container_left}>
-          <div className={Style.logo}>
-            <DiJqueryLogo
-              style={{
-                width: 60,
-                height: 60
-              }}
-              onClick={() => router.push('/')}
-            />
+          <div>
+            <DiJqueryLogo onClick={() => router.push('/')} className={Style.logo} />
           </div>
           <div className={Style.navbar_container_left_box_input}>
             <div className={Style.navbar_container_left_box_input_box}>
@@ -160,6 +154,8 @@ const NavBar = () => {
         <div className={Style.sideBar}>
           <SideBar
             setOpenSideMenu={setOpenSideMenu}
+            currentAccount={currentAccount}
+            connectWallet={connectWallet}
           />
         </div>
       )}
