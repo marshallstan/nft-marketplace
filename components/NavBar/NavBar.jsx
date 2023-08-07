@@ -11,8 +11,11 @@ import Style from './NavBar.module.css'
 import { Discover, HelpCenter, Notification, Profile, SideBar } from './index'
 import { Button } from '../componentsindex'
 import images from '../../img'
+import { NFTMarketplaceContext } from '../../Context/NFTMarketplaceContext'
 
 const NavBar = () => {
+  const { currentAccount, connectWallet, openError } = useContext(NFTMarketplaceContext)
+
   const router = useRouter()
 
   const [discover, setDiscover] = useState(false)
@@ -76,7 +79,13 @@ const NavBar = () => {
       <div className={Style.navbar_container}>
         <div className={Style.navbar_container_left}>
           <div className={Style.logo}>
-            <Image src={images.logo} alt="logo" width={100} height={100} />
+            <DiJqueryLogo
+              style={{
+                width: 60,
+                height: 60
+              }}
+              onClick={() => router.push('/')}
+            />
           </div>
           <div className={Style.navbar_container_left_box_input}>
             <div className={Style.navbar_container_left_box_input_box}>
@@ -114,7 +123,14 @@ const NavBar = () => {
           </div>
 
           <div className={Style.navbar_container_right_button}>
-            <Button btnName="Create" handleClick={() => {}} />
+            {currentAccount === '' ? (
+              <Button btnName="Connect" handleClick={() => connectWallet()} />
+            ) : (
+              <Button
+                btnName="Create"
+                handleClick={() => router.push('/uploadNFT')}
+              />
+            )}
           </div>
 
           <div className={Style.navbar_container_right_profile_box}>

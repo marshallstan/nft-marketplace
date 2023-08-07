@@ -59,8 +59,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
         setError('No Account Found')
         setOpenError(true)
       }
-
-      console.log('=>(NFTMarketplaceContext.js:42) currentAccount', accounts[0])
     } catch (error) {
       setError('Something wrong while connecting to wallet')
       setOpenError(true)
