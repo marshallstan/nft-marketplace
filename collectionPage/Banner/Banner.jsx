@@ -12,6 +12,7 @@ const Banner = ({ bannerImage }) => {
           alt="background"
           width={1600}
           height={100}
+          priority={true}
         />
       </div>
 

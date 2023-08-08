@@ -167,7 +167,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
         const data = await contract.fetchMarketItems()
 
-        const items = await Promise.all(
+        return await Promise.all(
           data.map(
             async ({ tokenId, seller, owner, price: unformattedPrice }) => {
               const tokenURI = await contract.tokenURI(tokenId)
@@ -182,7 +182,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
               return {
                 price,
-                tokenId: tokenId.toNumber(),
+                tokenId: parseInt(tokenId),
                 seller,
                 owner,
                 image,
@@ -193,22 +193,18 @@ export const NFTMarketplaceProvider = ({ children }) => {
             }
           )
         )
-        console.log('=>(NFTMarketplaceContext.js:182) items', items)
-
-        return items
       }
     } catch (error) {
       setError('Error while fetching NFTS')
       setOpenError(true)
-      console.log(error)
     }
   }
 
-  useEffect(() => {
-    if (currentAccount) {
-      fetchNFTs()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (currentAccount) {
+  //     fetchNFTs()
+  //   }
+  // }, [])
 
   const fetchMyNFTsOrListedNFTs = async (type) => {
     try {
@@ -234,7 +230,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
               return {
                 price,
-                tokenId: tokenId.toNumber(),
+                tokenId: parseInt(tokenId),
                 seller,
                 owner,
                 image,
