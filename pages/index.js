@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Style from '../styles/index.module.css'
 import {
   HeroSection,
@@ -14,12 +14,31 @@ import {
   AudioLive,
   Slider,
   Brand,
-  Video
+  Video,
+  Loader
 } from '../components/componentsindex'
 import { NFTMarketplaceContext } from '../Context/NFTMarketplaceContext'
 
 const Home = () => {
-  const { currentAccount } = useContext(NFTMarketplaceContext)
+  const { checkIfWalletConnected, currentAccount, fetchNFTs } = useContext(NFTMarketplaceContext)
+
+  const [nfts, setNfts] = useState([])
+  const [nftsCopy, setNftsCopy] = useState([])
+
+  useEffect(() => {
+    checkIfWalletConnected()
+  }, [])
+
+  useEffect(() => {
+    if (currentAccount) {
+      fetchNFTs().then((items) => {
+        if (items) {
+          setNfts(items.reverse())
+          setNftsCopy(items)
+        }
+      })
+    }
+  }, [currentAccount])
 
   return (
     <div className={Style.homePage}>
@@ -43,7 +62,7 @@ const Home = () => {
       />
       <Filter />
 
-      <NFTCard />
+      {nfts.length === 0 ? <Loader /> : <NFTCard NFTData={nfts} />}
 
       <Title
         heading="Browse by category"
