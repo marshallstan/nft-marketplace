@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import Style from '../styles/author.module.css'
 import { Banner } from '../collectionPage/collectionIndex'
@@ -10,8 +10,19 @@ import {
   AuthorTaps,
   AuthorNFTCardBox
 } from '../authorPage/componentIndex'
+import { NFTMarketplaceContext } from '../Context/NFTMarketplaceContext'
 
 const author = () => {
+  const { fetchMyNFTsOrListedNFTs, currentAccount } = useContext(NFTMarketplaceContext)
+
+  const [collectiables, setCollectables] = useState(true)
+  const [created, setCreated] = useState(false)
+  const [like, setLike] = useState(false)
+  const [follower, setFollower] = useState(false)
+  const [following, setFollowing] = useState(false)
+  const [nfts, setNfts] = useState([])
+  const [myNFTs, setMyNFTs] = useState([])
+
   const followerArray = [
     {
       background: images.creatorbackground1,
@@ -39,16 +50,26 @@ const author = () => {
     }
   ]
 
-  const [collectables, setCollectables] = useState(true)
-  const [created, setCreated] = useState(false)
-  const [like, setLike] = useState(false)
-  const [follower, setFollower] = useState(false)
-  const [following, setFollowing] = useState(false)
+  useEffect(() => {
+    if (currentAccount) {
+      fetchMyNFTsOrListedNFTs('fetchItemsListed').then((items) => {
+        setNfts(items)
+      })
+    }
+  }, [currentAccount])
+
+  useEffect(() => {
+    if (currentAccount) {
+      fetchMyNFTsOrListedNFTs('fetchMyNFTs').then((items) => {
+        setMyNFTs(items)
+      })
+    }
+  }, [currentAccount])
 
   return (
     <div className={Style.author}>
       <Banner bannerImage={images.creatorbackground2} />
-      <AuthorProfileCard />
+      <AuthorProfileCard currentAccount={currentAccount} />
       <AuthorTaps
         setCollectables={setCollectables}
         setCreated={setCreated}
@@ -58,11 +79,13 @@ const author = () => {
       />
 
       <AuthorNFTCardBox
-        collectables={collectables}
+        collectiables={collectiables}
         created={created}
         like={like}
         follower={follower}
         following={following}
+        nfts={nfts}
+        myNFTS={myNFTs}
       />
       <Title
         heading="Popular Creators"
@@ -71,7 +94,7 @@ const author = () => {
       />
       <div className={Style.author_box}>
         {followerArray.map((el, i) => (
-          <FollowerTabCard i={i} el={el} />
+          <FollowerTabCard i={i} el={el} key={i + 1} />
         ))}
       </div>
 

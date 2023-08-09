@@ -200,12 +200,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   }
 
-  // useEffect(() => {
-  //   if (currentAccount) {
-  //     fetchNFTs()
-  //   }
-  // }, [])
-
   const fetchMyNFTsOrListedNFTs = async (type) => {
     try {
       if (currentAccount) {
@@ -241,8 +235,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
             }
           )
         )
-        console.log('=>(NFTMarketplaceContext.js:227) items', items)
-        return items
+        console.log('=>(fetchMyNFTsOrListedNFTs) items', items, type)
+        return items || []
       }
     } catch (error) {
       setError('Error while fetching listed NFTs')
@@ -260,6 +254,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       })
 
       await transaction.wait()
+      router.push('/author')
     } catch (error) {
       setError('Error While buying NFT')
       setOpenError(true)
