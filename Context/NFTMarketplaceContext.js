@@ -129,6 +129,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       console.log('=>(NFTMarketplaceContext.js:131) url', url)
 
       await createSale(url, price)
+      router.push('/searchPage')
     } catch (error) {
       setError('Error while creating NFT')
       setOpenError(true)
@@ -152,7 +153,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
         })
 
       await transaction.wait()
-      router.push('/searchPage')
     } catch (error) {
       setError('error while creating sale')
       setOpenError(true)
@@ -272,7 +272,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
         fetchNFTs,
         fetchMyNFTsOrListedNFTs,
         currentAccount,
-        buyNFT
+        buyNFT,
+        createSale
       }}
     >
       {children}
