@@ -137,7 +137,7 @@ const NavBar = () => {
                 onClick={() => openProfile()}
                 className={Style.navbar_container_right_profile}
               />
-              {profile && <Profile />}
+              {profile && <Profile currentAccount={currentAccount} />}
             </div>
           </div>
 
