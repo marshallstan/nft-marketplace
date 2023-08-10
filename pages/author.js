@@ -59,7 +59,9 @@ const author = () => {
   useEffect(() => {
     if (currentAccount) {
       fetchMyNFTsOrListedNFTs('fetchItemsListed').then((items) => {
-        setNfts(items)
+        if (items) {
+          setNfts(items)
+        }
       })
     }
   }, [currentAccount])
@@ -67,7 +69,9 @@ const author = () => {
   useEffect(() => {
     if (currentAccount) {
       fetchMyNFTsOrListedNFTs('fetchMyNFTs').then((items) => {
-        setMyNFTs(items)
+        if (items) {
+          setMyNFTs(items)
+        }
       })
     }
   }, [currentAccount])
@@ -95,8 +99,7 @@ const author = () => {
       />
       <Title
         heading="Popular Creators"
-        paragraph="Click on music icon and enjoy NTF music or audio
-"
+        paragraph="Click on music icon and enjoy NTF music or audio"
       />
       <div className={Style.author_box}>
         {followerArray.map((el, i) => (

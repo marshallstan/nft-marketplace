@@ -60,7 +60,8 @@
   background-color: var(--main-bg-color);
   border-radius: 50%;
   top: -20%;
-  left: 38%;
+  left: 50%;
+  transform: translateX(-2.5rem);
 }
 
 .FollowerTabCard_box_info {
@@ -92,39 +93,11 @@
 }
 
 @media screen and (min-device-width: 320px) {
-  .FollowerTabCard_box_profile::before {
-    left: 38%;
-  }
-
   .FollowerTabCard_box_info {
     padding-inline: 2rem;
   }
 
   .FollowerTabCard_box_img_img {
     height: 200rem;
-  }
-}
-
-@media screen and (min-device-width: 322px) and (max-device-width: 375px) {
-  .FollowerTabCard_box_profile::before {
-    left: 39.5%;
-  }
-}
-
-@media screen and (min-device-width: 377px) and (max-device-width: 425px) {
-  .FollowerTabCard_box_profile::before {
-    left: 41%;
-  }
-}
-
-@media screen and (min-device-width: 427px) and (max-device-width: 768px) {
-  .FollowerTabCard_box_profile::before {
-    left: 39.5%;
-  }
-}
-
-@media screen and (min-device-width: 770px) and (max-device-width: 1024px) {
-  .FollowerTabCard_box_profile::before {
-    left: 42%;
   }
 }
