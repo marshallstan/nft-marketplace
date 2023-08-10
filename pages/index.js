@@ -17,13 +17,14 @@ import {
   Video,
   Loader
 } from '../components/componentsindex'
+import { getTopCreators } from '../TopCreators/TopCreators'
 import { NFTMarketplaceContext } from '../Context/NFTMarketplaceContext'
 
 const Home = () => {
   const { checkIfWalletConnected, currentAccount, fetchNFTs } = useContext(NFTMarketplaceContext)
 
   const [nfts, setNfts] = useState([])
-  const [nftsCopy, setNftsCopy] = useState([])
+  const creators = getTopCreators(nfts)
 
   useEffect(() => {
     checkIfWalletConnected()
@@ -34,7 +35,6 @@ const Home = () => {
       fetchNFTs().then((items) => {
         if (items) {
           setNfts(items.reverse())
-          setNftsCopy(items)
         }
       })
     }
@@ -52,7 +52,12 @@ const Home = () => {
       />
       <AudioLive />
 
-      <FollowerTab />
+      {creators.length === 0 ? (
+        <Loader />
+      ) : (
+        <FollowerTab TopCreator={creators} />
+      )}
+
       <Slider />
       <Collection />
 

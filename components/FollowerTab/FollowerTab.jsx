@@ -8,99 +8,79 @@ import Style from './FollowerTab.module.css'
 import images from '../../img'
 import FollowerTabCard from './FollowerTabCard/FollowerTabCard'
 
-const FollowerTab = () => {
-  const CardArray = [
-    {
-      background: images.creatorbackground1,
-      user: images.user1
-    },
-    {
-      background: images.creatorbackground2,
-      user: images.user2
-    },
-    {
-      background: images.creatorbackground3,
-      user: images.user3
-    },
-    {
-      background: images.creatorbackground4,
-      user: images.user4
-    },
-    {
-      background: images.creatorbackground5,
-      user: images.user5
-    },
-    {
-      background: images.creatorbackground6,
-      user: images.user6
-    },
-    {
-      background: images.creatorbackground7,
-      user: images.user7
-    },
-    {
-      background: images.creatorbackground8,
-      user: images.user8
-    }
-  ]
+const FollowerTab = ({ TopCreator }) => {
   const FollowingArray = [
     {
       background: images.creatorbackground3,
-      user: images.user3
+      user: images.user3,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground4,
-      user: images.user4
+      user: images.user4,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground5,
-      user: images.user5
+      user: images.user5,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground6,
-      user: images.user6
+      user: images.user6,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground1,
-      user: images.user1
+      user: images.user1,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground2,
-      user: images.user2
+      user: images.user2,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     }
   ]
   const NewsArray = [
     {
       background: images.creatorbackground1,
-      user: images.user1
+      user: images.user1,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground2,
-      user: images.user2
+      user: images.user2,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground3,
-      user: images.user3
+      user: images.user3,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground4,
-      user: images.user4
+      user: images.user4,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground5,
-      user: images.user5
+      user: images.user5,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground6,
-      user: images.user6
+      user: images.user6,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground7,
-      user: images.user7
+      user: images.user7,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     },
     {
       background: images.creatorbackground8,
-      user: images.user8
+      user: images.user8,
+      seller: '7200d8d8390d9993ujdc93900399djj277x'
     }
   ]
 
@@ -151,7 +131,7 @@ const FollowerTab = () => {
 
       {popular && (
         <div className={Style.followerTab_box}>
-          {CardArray.map((el, i) => (
+          {TopCreator.map((el, i) => (
             <FollowerTabCard key={i + 1} i={i} el={el} />
           ))}
         </div>
