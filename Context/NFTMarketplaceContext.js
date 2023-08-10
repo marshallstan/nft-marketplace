@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Web3Modal from 'web3modal'
-import { ethers, JsonRpcProvider } from 'ethers'
+import { ethers, JsonRpcProvider, formatEther } from 'ethers'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
@@ -75,6 +75,11 @@ export const NFTMarketplaceProvider = ({ children }) => {
         setError('No Account Found')
         setOpenError(true)
       }
+
+      const provider = new ethers.BrowserProvider(window.ethereum)
+      const getBalance = await provider.getBalance(accounts[0])
+      const bal = formatEther(getBalance)
+      setAccountBalance(bal)
     } catch (error) {
       setError('Something wrong while connecting to wallet')
       setOpenError(true)
@@ -273,7 +278,12 @@ export const NFTMarketplaceProvider = ({ children }) => {
         fetchMyNFTsOrListedNFTs,
         currentAccount,
         buyNFT,
-        createSale
+        createSale,
+        openError,
+        setOpenError,
+        error,
+        setError,
+        accountBalance
       }}
     >
       {children}

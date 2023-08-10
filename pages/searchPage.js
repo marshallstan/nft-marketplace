@@ -17,7 +17,6 @@ const searchPage = () => {
     try {
       if (currentAccount) {
         fetchNFTs().then((items) => {
-          console.log('=>(searchPage.js:22) items', items)
           if (items) {
             setNfts(items.reverse())
             setNftsCopy(items)
@@ -25,7 +24,7 @@ const searchPage = () => {
         })
       }
     } catch (error) {
-      setError('Please reload the browser', error)
+      setError('Please reload the browser')
     }
   }, [currentAccount])
 

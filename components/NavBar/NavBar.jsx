@@ -1,15 +1,14 @@
 import { useState, useContext } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { DiJqueryLogo } from 'react-icons/di'
 import { MdNotifications } from 'react-icons/md'
 import { BsSearch } from 'react-icons/bs'
-import { CgMenuLeft, CgMenuRight } from 'react-icons/cg'
+import { CgMenuRight } from 'react-icons/cg'
 
 import Style from './NavBar.module.css'
 import { Discover, HelpCenter, Notification, Profile, SideBar } from './index'
-import { Button } from '../componentsindex'
+import { Button, Error } from '../componentsindex'
 import images from '../../img'
 import { NFTMarketplaceContext } from '../../Context/NFTMarketplaceContext'
 
@@ -159,6 +158,8 @@ const NavBar = () => {
           />
         </div>
       )}
+
+      {openError && <Error />}
     </div>
   )
 }
