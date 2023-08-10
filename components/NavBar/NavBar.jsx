@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { DiJqueryLogo } from 'react-icons/di'
@@ -23,7 +23,21 @@ const NavBar = () => {
   const [profile, setProfile] = useState(false)
   const [openSideMenu, setOpenSideMenu] = useState(false)
 
+  useEffect(() => {
+    document.body.onclick = () => {
+      if (discover) setDiscover(false)
+      if (help) setHelp(false)
+      if (notification) setNotification(false)
+      if (profile) setProfile(false)
+    }
+
+    return () => {
+      document.body.onclick = null
+    }
+  }, [discover, help, notification, profile])
+
   const openMenu = e => {
+    e.stopPropagation()
     const btnText = e.target.innerText
     if (btnText === 'Discover') {
       setDiscover(!discover)
@@ -43,7 +57,8 @@ const NavBar = () => {
     }
   }
 
-  const openNotification = () => {
+  const openNotification = e => {
+    e.stopPropagation()
     if (!notification) {
       setNotification(true)
       setDiscover(false)
@@ -54,7 +69,8 @@ const NavBar = () => {
     }
   }
 
-  const openProfile = () => {
+  const openProfile = e => {
+    e.stopPropagation()
     if (!profile) {
       setProfile(true)
       setHelp(false)
@@ -65,7 +81,13 @@ const NavBar = () => {
     }
   }
 
-  const openSideBar = () => {
+  const openSideBar = e => {
+    e.stopPropagation()
+    if (discover) setDiscover(false)
+    if (help) setHelp(false)
+    if (notification) setNotification(false)
+    if (profile) setProfile(false)
+
     if (!openSideMenu) {
       setOpenSideMenu(true)
     } else {
@@ -110,7 +132,7 @@ const NavBar = () => {
           <div className={Style.navbar_container_right_notify}>
             <MdNotifications
               className={Style.notify}
-              onClick={() => openNotification()}
+              onClick={e => openNotification(e)}
             />
             {notification && <Notification />}
           </div>
@@ -133,7 +155,7 @@ const NavBar = () => {
                 alt="Profile"
                 width={40}
                 height={40}
-                onClick={() => openProfile()}
+                onClick={e => openProfile(e)}
                 className={Style.navbar_container_right_profile}
               />
               {profile && <Profile currentAccount={currentAccount} />}
@@ -143,7 +165,7 @@ const NavBar = () => {
           <div className={Style.navbar_container_right_menuBtn}>
             <CgMenuRight
               className={Style.menuIcon}
-              onClick={() => openSideBar()}
+              onClick={e => openSideBar(e)}
             />
           </div>
         </div>

@@ -28,11 +28,11 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
     },
     {
       name: 'Search',
-      link: 'search'
+      link: 'searchPage'
     },
     {
       name: 'Author Profile',
-      link: 'author-profile'
+      link: 'author'
     },
     {
       name: 'NFT Details',
@@ -40,11 +40,15 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
     },
     {
       name: 'Account Setting',
-      link: 'account-setting'
+      link: 'account'
+    },
+    {
+      name: 'Upload NFT',
+      link: 'uploadNFT'
     },
     {
       name: 'Connect Wallet',
-      link: 'connect-wallet'
+      link: 'connectWallet'
     },
     {
       name: 'Blog',
@@ -55,19 +59,19 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
   const helpCenter = [
     {
       name: 'About',
-      link: 'about'
+      link: 'aboutus'
     },
     {
       name: 'Contact Us',
-      link: 'contact-us'
+      link: 'contactus'
     },
     {
       name: 'Sign Up',
-      link: 'sign-up'
+      link: 'signUp'
     },
     {
-      name: 'Sign In',
-      link: 'sign-in'
+      name: 'LogIn',
+      link: 'login'
     },
     {
       name: 'Subscription',
@@ -175,7 +179,10 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
         ) : (
           <Button
             btnName="Create"
-            handleClick={() => router.push('/uploadNFT')}
+            handleClick={() => {
+              closeSideBar()
+              router.push('/uploadNFT')
+            }}
           />
         )}
       </div>
