@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
 
 import Style from '../styles/searchPage.module.css'
-import { Slider, Brand } from '../components/componentsindex'
+import { Slider, Brand, Loader } from '../components/componentsindex'
 import { SearchBar } from '../SearchPage/searchBarIndex'
 import { Filter } from '../components/componentsindex'
 import { NFTCardTwo, Banner } from '../collectionPage/collectionIndex'
@@ -55,8 +55,7 @@ const searchPage = () => {
         onClearSearch={onClearSearch}
       />
       <Filter />
-      <NFTCardTwo NFTData={nfts} />
-      {/*{nfts.length === 0 ? <Loader /> : <NFTCardTwo NFTData={nfts} />}*/}
+      {nfts.length === 0 ? <Loader /> : <NFTCardTwo NFTData={nfts} />}
       <Slider />
       <Brand />
     </div>
