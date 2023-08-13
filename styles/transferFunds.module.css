@@ -107,6 +107,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
   position: absolute;
+  width: 70%;
+}
+
+.messageBox_box h1 {
+  line-height: normal;
 }
 
 .messageBox_box_para {
