@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import Web3Modal from 'web3modal'
-import { ethers, JsonRpcProvider, formatEther } from 'ethers'
+import { ethers, JsonRpcProvider, formatEther, parseEther } from 'ethers'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 
 import {
   NFTMarketplaceAddress,
-  NFTMarketplaceABI
+  NFTMarketplaceABI,
+  transferFundsAddress,
+  transferFundsABI
 } from './constants'
+
+const targetId = process.env.NODE_ENV === 'production' ? 80001 : 31337
+const NETWORKS = {
+  1: 'Ethereum Main Network',
+  3: 'Ropsten Test Network',
+  4: 'Rinkeby Test Network',
+  5: 'Goerli Test Network',
+  42: 'Kovan Test Network',
+  56: 'Binance Smart Chain',
+  1337: 'Ganache',
+  31337: 'Hardhat_local',
+  80001: 'Mumbai Test Network',
+  11155111: 'Sepolia Test Network'
+}
 
 const projectId = process.env.PROJECT_ID
 const projectSecretKey = process.env.PROJECT_SECRET_KEY
@@ -27,6 +43,7 @@ const client = ipfsHttpClient({
   }
 })
 
+// --- NFT CONTRACT
 const fetchContract = (signerOrProvider) =>
   new ethers.Contract(
     NFTMarketplaceAddress,
@@ -46,6 +63,26 @@ const connectingWithSmartContract = async () => {
   }
 }
 
+// --- TRANSFER FUNDS CONTRACT
+const fetchTransferFundsContract = (signerOrProvider) =>
+  new ethers.Contract(
+    transferFundsAddress,
+    transferFundsABI,
+    signerOrProvider
+  )
+
+const connectToTransferFunds = async () => {
+  try {
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.BrowserProvider(connection)
+    const signer = await provider.getSigner()
+    return fetchTransferFundsContract(signer)
+  } catch (error) {
+    console.log('Something went wrong while connecting TransferFunds with contract', error)
+  }
+}
+
 export const NFTMarketplaceContext = React.createContext({})
 
 export const NFTMarketplaceProvider = ({ children }) => {
@@ -56,6 +93,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const [openError, setOpenError] = useState(false)
   const [currentAccount, setCurrentAccount] = useState('')
   const [accountBalance, setAccountBalance] = useState('')
+  const [chainID, setChainID] = useState(0)
 
   const checkIfWalletConnected = async () => {
     try {
@@ -80,6 +118,16 @@ export const NFTMarketplaceProvider = ({ children }) => {
       const getBalance = await provider.getBalance(accounts[0])
       const bal = formatEther(getBalance)
       setAccountBalance(bal)
+
+      const chainId = await provider.getNetwork().then((res) => {
+        return res.chainId ? parseInt(res.chainId) : 0
+      })
+      setChainID(chainId)
+      if (chainId !== targetId) {
+        setError(`Please connect to the network: ${NETWORKS[targetId]}`)
+        setOpenError(true)
+      }
+
     } catch (error) {
       setError('Something wrong while connecting to wallet')
       setOpenError(true)
@@ -88,6 +136,14 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
   useEffect(() => {
     checkIfWalletConnected()
+    if (window.ethereum) {
+      window.ethereum.on('chainChanged', () => {
+        window.location.reload()
+      })
+      window.ethereum.on('accountsChanged', () => {
+        window.location.reload()
+      })
+    }
   }, [])
 
   const connectWallet = async () => {
@@ -131,7 +187,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
       const added = await client.add(data)
 
       const url = `${subdomain}/ipfs/${added.path}`
-      console.log('=>(NFTMarketplaceContext.js:131) url', url)
 
       await createSale(url, price)
       router.push('/searchPage')
@@ -266,10 +321,90 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   }
 
+  // ---TRANSFER FUNDS
+  const [transactions, setTransactions] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  const transferEther = async (address, ether, message) => {
+    try {
+      if (currentAccount) {
+        if (!address || !ether) {
+          setError('Please fill the form')
+          setOpenError(true)
+          return
+        }
+        const contract = await connectToTransferFunds()
+
+        const unFormattedPrice = parseEther(ether)
+
+        await window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              from: currentAccount,
+              to: address,
+              value: unFormattedPrice.toString(16)
+            }
+          ]
+        })
+
+        const transaction = await contract.addDataToBlockchain(
+          address,
+          unFormattedPrice,
+          message
+        )
+
+        setLoading(true)
+        await transaction.wait()
+        setLoading(false)
+
+        window.location.reload()
+      } else {
+        setError('No account connected')
+        setOpenError(true)
+      }
+    } catch (error) {
+      console.log(error)
+      setError('Error While transfer Ethers')
+      setOpenError(true)
+    }
+  }
+
+  const getAllTransactions = async () => {
+    try {
+      if (window.ethereum) {
+        const contract = await connectToTransferFunds()
+
+        const availableTransaction = await contract.getAllTransactions()
+
+        const readTransaction = availableTransaction.map((transaction) => ({
+          addressTo: transaction.receiver,
+          addressFrom: transaction.sender,
+          timestamp: new Date(
+            parseInt(transaction.timestamp) * 1000
+          ).toLocaleString(),
+          message: transaction.message,
+          amount: parseInt(transaction.amount) / 10 ** 18
+        }))
+
+        setTransactions(readTransaction)
+      } else {
+        setError('No Ethereum')
+        setOpenError(true)
+      }
+    } catch (error) {
+      console.log(error)
+      setError('Error While getAllTransactions')
+      setOpenError(true)
+    }
+  }
+
   return (
     <NFTMarketplaceContext.Provider
       value={{
         checkIfWalletConnected,
+        chainID,
+        targetId,
         titleData,
         createNFT,
         connectWallet,
@@ -283,7 +418,11 @@ export const NFTMarketplaceProvider = ({ children }) => {
         setOpenError,
         error,
         setError,
-        accountBalance
+        accountBalance,
+        transferEther,
+        getAllTransactions,
+        transactions,
+        loading
       }}
     >
       {children}

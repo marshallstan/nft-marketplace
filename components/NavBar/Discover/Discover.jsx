@@ -5,12 +5,16 @@ import Style from './Discover.module.css'
 const Discover = () => {
   const discover = [
     {
-      name: 'Collection',
-      link: 'collection'
-    },
-    {
       name: 'Search',
       link: 'searchPage'
+    },
+    {
+      name: 'Transfer Funds',
+      link: 'transferFunds'
+    },
+    {
+      name: 'Collection',
+      link: 'collection'
     },
     {
       name: 'Author Profile',

@@ -13,8 +13,13 @@ import images from '../../img'
 import { NFTMarketplaceContext } from '../../Context/NFTMarketplaceContext'
 
 const NavBar = () => {
-  const { currentAccount, connectWallet, openError } = useContext(NFTMarketplaceContext)
-
+  const {
+    currentAccount,
+    connectWallet,
+    openError,
+    chainID,
+    targetId
+  } = useContext(NFTMarketplaceContext)
   const router = useRouter()
 
   const [discover, setDiscover] = useState(false)
@@ -138,7 +143,7 @@ const NavBar = () => {
           </div>
 
           <div className={Style.navbar_container_right_button}>
-            {currentAccount === '' ? (
+            {currentAccount === '' || chainID !== targetId ? (
               <Button btnName="Connect" handleClick={() => connectWallet()} />
             ) : (
               <Button
@@ -177,6 +182,8 @@ const NavBar = () => {
             setOpenSideMenu={setOpenSideMenu}
             currentAccount={currentAccount}
             connectWallet={connectWallet}
+            chainID={chainID}
+            targetId={targetId}
           />
         </div>
       )}

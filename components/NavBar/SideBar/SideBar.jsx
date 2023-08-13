@@ -16,19 +16,25 @@ import Style from './SideBar.module.css'
 import images from '../../../img'
 import Button from '../../Button/Button'
 
-const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
+const SideBar = ({
+  setOpenSideMenu, currentAccount, connectWallet, targetId, chainID
+}) => {
   const router = useRouter()
   const [openDiscover, setOpenDiscover] = useState(false)
   const [openHelp, setOpenHelp] = useState(false)
 
   const discover = [
     {
-      name: 'Collection',
-      link: 'collection'
-    },
-    {
       name: 'Search',
       link: 'searchPage'
+    },
+    {
+      name: 'Transfer Funds',
+      link: 'transferFunds'
+    },
+    {
+      name: 'Collection',
+      link: 'collection'
     },
     {
       name: 'Author Profile',
@@ -166,7 +172,7 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
       </div>
 
       <div className={Style.sideBar_button}>
-        {currentAccount === '' ? (
+        {currentAccount === '' || chainID !== targetId ? (
           <Button btnName="connect" handleClick={() => connectWallet()} />
         ) : (
           <Button
