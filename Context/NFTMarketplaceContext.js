@@ -15,7 +15,7 @@ import {
 const provider_url = process.env.NODE_ENV === 'production' ?
   process.env.TEST_NETWORK_URL :
   'http://127.0.0.1:8545'
-const targetId = process.env.TARGET_ID
+const targetId = parseInt(process.env.TARGET_ID)
 const NETWORKS = {
   1: 'Ethereum Main Network',
   3: 'Ropsten Test Network',
