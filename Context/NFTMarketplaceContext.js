@@ -12,9 +12,7 @@ import {
   transferFundsABI
 } from './constants'
 
-const provider_url = process.env.NODE_ENV === 'production' ?
-  process.env.RPC_URL :
-  'http://127.0.0.1:8545'
+const provider_url = process.env.RPC_URL
 const targetId = parseInt(process.env.TARGET_ID)
 const NETWORKS = {
   1: 'Ethereum Main Network',

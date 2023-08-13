@@ -10,6 +10,7 @@ const nextConfig = {
     PROJECT_SECRET_KEY: process.env.PROJECT_SECRET_KEY,
     SUBDOMAIN: process.env.SUBDOMAIN,
     TARGET_ID: process.env.TARGET_ID,
+    RPC_URL: process.env.RPC_URL,
     NFT_ADDRESS: process.env.NFT_ADDRESS,
     FUNDS_ADDRESS: process.env.FUNDS_ADDRESS
   }
