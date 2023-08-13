@@ -72,6 +72,12 @@
 .NFTCardTwo_box_info_left p {
   font-size: 2rem;
   font-weight: 900;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: normal;
+  margin: 10px 0;
+  max-width: 20rem;
 }
 
 .NFTCardTwo_box_price {
