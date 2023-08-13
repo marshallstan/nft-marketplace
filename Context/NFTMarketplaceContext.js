@@ -13,7 +13,7 @@ import {
 } from './constants'
 
 const provider_url = process.env.NODE_ENV === 'production' ?
-  process.env.TEST_NETWORK_URL :
+  process.env.RPC_URL :
   'http://127.0.0.1:8545'
 const targetId = parseInt(process.env.TARGET_ID)
 const NETWORKS = {
