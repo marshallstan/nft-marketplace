@@ -11,8 +11,7 @@ import { NFTMarketplaceContext } from '../Context/NFTMarketplaceContext'
 const searchPage = () => {
   const {
     fetchNFTs,
-    setError,
-    currentAccount
+    setError
   } = useContext(NFTMarketplaceContext)
   const [nfts, setNfts] = useState([])
   const [nftsCopy, setNftsCopy] = useState([])
@@ -20,19 +19,17 @@ const searchPage = () => {
 
   useEffect(() => {
     try {
-      if (currentAccount) {
-        fetchNFTs().then((items) => {
-          if (items) {
-            setLoading(false)
-            setNfts(items.reverse())
-            setNftsCopy(items)
-          }
-        })
-      }
+      fetchNFTs().then((items) => {
+        if (items) {
+          setLoading(false)
+          setNfts(items.reverse())
+          setNftsCopy(items)
+        }
+      })
     } catch (error) {
       setError('Please reload the browser')
     }
-  }, [currentAccount])
+  }, [])
 
   const onHandleSearch = (value) => {
     const filteredNFTS = nfts.filter(({ name }) =>

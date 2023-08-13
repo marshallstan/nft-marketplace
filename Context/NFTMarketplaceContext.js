@@ -12,6 +12,9 @@ import {
   transferFundsABI
 } from './constants'
 
+const provider_url = process.env.NODE_ENV === 'production' ?
+  process.env.TEST_NETWORK_URL :
+  'http://127.0.0.1:8545'
 const targetId = process.env.NODE_ENV === 'production' ? 80001 : 31337
 const NETWORKS = {
   1: 'Ethereum Main Network',
@@ -103,22 +106,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         return
       }
 
-      const accounts = await window.ethereum.request({
-        method: 'eth_accounts'
-      })
-
-      if (accounts.length) {
-        setCurrentAccount(accounts[0])
-      } else {
-        setError('No Account Found')
-        setOpenError(true)
-      }
-
       const provider = new ethers.BrowserProvider(window.ethereum)
-      const getBalance = await provider.getBalance(accounts[0])
-      const bal = formatEther(getBalance)
-      setAccountBalance(bal)
-
       const chainId = await provider.getNetwork().then((res) => {
         return res.chainId ? parseInt(res.chainId) : 0
       })
@@ -128,7 +116,22 @@ export const NFTMarketplaceProvider = ({ children }) => {
         setOpenError(true)
       }
 
+      const accounts = await window.ethereum.request({
+        method: 'eth_accounts'
+      })
+
+      if (accounts.length) {
+        setCurrentAccount(accounts[0])
+
+        const getBalance = await provider.getBalance(accounts[0])
+        const bal = formatEther(getBalance)
+        setAccountBalance(bal)
+      } else {
+        setError('No Account Found')
+        setOpenError(true)
+      }
     } catch (error) {
+      console.log('checkIfWalletConnected', error)
       setError('Something wrong while connecting to wallet')
       setOpenError(true)
     }
@@ -158,6 +161,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         method: 'eth_requestAccounts'
       })
       setCurrentAccount(accounts[0])
+      await connectingWithSmartContract()
     } catch (error) {
       setError('Error while connecting to wallet')
       setOpenError(true)
@@ -221,40 +225,39 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
   const fetchNFTs = async () => {
     try {
-      if (currentAccount) {
-        const provider = new JsonRpcProvider()
-        const contract = fetchContract(provider)
+      const provider = new JsonRpcProvider(provider_url)
+      const contract = fetchContract(provider)
 
-        const data = await contract.fetchMarketItems()
+      const data = await contract.fetchMarketItems()
 
-        return await Promise.all(
-          data.map(
-            async ({ tokenId, seller, owner, price: unformattedPrice }) => {
-              const tokenURI = await contract.tokenURI(tokenId)
+      return await Promise.all(
+        data.map(
+          async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+            const tokenURI = await contract.tokenURI(tokenId)
 
-              const {
-                data: { image, name, description }
-              } = await axios.get(tokenURI)
-              const price = ethers.formatUnits(
-                unformattedPrice.toString(),
-                'ether'
-              )
+            const {
+              data: { image, name, description }
+            } = await axios.get(tokenURI)
+            const price = ethers.formatUnits(
+              unformattedPrice.toString(),
+              'ether'
+            )
 
-              return {
-                price,
-                tokenId: parseInt(tokenId),
-                seller,
-                owner,
-                image,
-                name,
-                description,
-                tokenURI
-              }
+            return {
+              price,
+              tokenId: parseInt(tokenId),
+              seller,
+              owner,
+              image,
+              name,
+              description,
+              tokenURI
             }
-          )
+          }
         )
-      }
+      )
     } catch (error) {
+      console.log('fetchNFTs', error)
       setError('Error while fetching NFTS')
       setOpenError(true)
     }
@@ -262,7 +265,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
   const fetchMyNFTsOrListedNFTs = async (type) => {
     try {
-      if (currentAccount) {
+      if (currentAccount && chainID === targetId) {
         const contract = await connectingWithSmartContract()
 
         const data =
@@ -299,6 +302,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         return items || []
       }
     } catch (error) {
+      console.log('fetchMyNFTsOrListedNFTs', error)
       setError('Error while fetching listed NFTs')
       setOpenError(true)
     }

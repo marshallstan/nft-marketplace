@@ -63,11 +63,7 @@ const author = () => {
           setNfts(items)
         }
       })
-    }
-  }, [currentAccount])
 
-  useEffect(() => {
-    if (currentAccount) {
       fetchMyNFTsOrListedNFTs('fetchMyNFTs').then((items) => {
         if (items) {
           setMyNFTs(items)
