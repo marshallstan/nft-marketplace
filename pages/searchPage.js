@@ -9,15 +9,21 @@ import images from '../img'
 import { NFTMarketplaceContext } from '../Context/NFTMarketplaceContext'
 
 const searchPage = () => {
-  const { fetchNFTs, setError, currentAccount } = useContext(NFTMarketplaceContext)
+  const {
+    fetchNFTs,
+    setError,
+    currentAccount
+  } = useContext(NFTMarketplaceContext)
   const [nfts, setNfts] = useState([])
   const [nftsCopy, setNftsCopy] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     try {
       if (currentAccount) {
         fetchNFTs().then((items) => {
           if (items) {
+            setLoading(false)
             setNfts(items.reverse())
             setNftsCopy(items)
           }
@@ -54,7 +60,7 @@ const searchPage = () => {
         onClearSearch={onClearSearch}
       />
       <Filter />
-      {nfts.length === 0 ? <Loader /> : <NFTCardTwo NFTData={nfts} />}
+      {loading ? <Loader /> : <NFTCardTwo NFTData={nfts} />}
       {/*<Slider />*/}
       {/*<Brand />*/}
     </div>
